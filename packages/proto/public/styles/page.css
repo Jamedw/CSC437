@@ -1,0 +1,56 @@
+body {
+    background-color: var(--color-background-page);
+    color: beige;
+
+}
+h1 {
+    background-color: var(--color-background-header);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--box-shadow);
+}
+a {
+    color: var(--color-link);
+}
+
+table {
+    width: 50%;
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    border: .15em solid var(--color-accent);
+    border-spacing: .5em;
+    border-radius: .8em;
+}
+ol {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    width: 50%;
+}
+
+dl {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    width: 75%;
+    height: 100%;
+}
+
+ul {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    width: 50%;
+}
+
+footer {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    text-align: center;
+}

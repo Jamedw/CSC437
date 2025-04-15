@@ -1,0 +1,12 @@
+
+:root{
+    --color-accent: rgba(128, 0, 128, 0.80);
+    --color-background-header: var(--color-accent);
+    --color-background-page: rgba(0, 0, 0, 0.850);
+    --color-link: rgb(255, 188, 65);
+    --box-shadow: 5px 5px 5px #8888888e;
+    --color-text: beige;
+    --border-radius: 1em;
+    --line-height: 1.5em;    
+
+}

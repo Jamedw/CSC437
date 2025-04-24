@@ -1,9 +1,11 @@
 body {
     background-color: var(--color-background-page);
     color: var(--color-text);
+    font-family: "Playfair Display", serif;
 }
 
 h1 {
+    font-family: "Alegreya", serif;
     background-color: var(--color-background-header);
     color: var(--color-text);
     line-height: var(--line-height);

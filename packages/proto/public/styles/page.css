@@ -4,6 +4,14 @@ body {
     font-family: "Playfair Display", serif;
 }
 
+svg.icon {
+    display: inline;
+    height: 2em;
+    width: 2em;
+    vertical-align: top;
+    fill: currentColor;
+}
+
 h1 {
     font-family: "Alegreya", serif;
     background-color: var(--color-background-header);

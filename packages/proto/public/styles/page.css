@@ -12,15 +12,35 @@ svg.icon {
     fill: currentColor;
 }
 
-h1 {
+header {
+    display: flex; /* etc., as before */
     font-family: "Alegreya", serif;
     background-color: var(--color-background-header);
     color: var(--color-text);
     line-height: var(--line-height);
     border-radius: var(--border-radius);
     text-align: center;
+    font-size: 2.5em;
     box-shadow: var(--box-shadow);
 }
+header > .title{
+    width: 80%;
+}
+header > .settings{
+    width: 30%;
+}
+
+
+
+h1 {
+    background-color: var(--color-background-header);
+    color: var(--color-text);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+
 a {
     color: var(--color-link);
 }
@@ -38,7 +58,6 @@ ol {
     box-shadow: var(--box-shadow);
     line-height: var(--line-height);
     border-radius: var(--border-radius);
-    width: 50%;
 }
 
 dl {
@@ -46,8 +65,6 @@ dl {
     box-shadow: var(--box-shadow);
     line-height: var(--line-height);
     border-radius: var(--border-radius);
-    width: 75%;
-    height: 100%;
 }
 
 ul {
@@ -55,7 +72,6 @@ ul {
     box-shadow: var(--box-shadow);
     line-height: var(--line-height);
     border-radius: var(--border-radius);
-    width: 50%;
 }
 
 footer {
@@ -65,3 +81,55 @@ footer {
     border-radius: var(--border-radius);
     text-align: center;
 }
+
+.movieList {
+    display: flex; /* etc., as before */
+    flex-wrap: wrap;
+
+    list-style: none;
+  & > * {
+    width: fit-content;
+    flex-grow: 1;
+    flex-basis: 0%;
+	@media screen and (max-width: 30rem) {
+      /* override for mobile: */
+      flex-basis: auto;
+    }
+  }
+  }
+li {
+    padding: 10%;
+    margin: 1%;
+    border: 1px;
+    border-style: solid;
+    border-radius: 10%;
+    border-color: black;
+}
+
+.page {
+    --page-grids: 3;
+  
+    display: grid;
+    grid-template-columns: repeat(
+      var(--page-grids), 1fr
+    );
+
+    gap:
+      var(--size-spacing-medium);
+  }
+  
+  .page > header {
+    grid-column: 1 / span 3;
+  }
+  .page > footer {
+    grid-column: 1 / span 3;
+  }
+
+
+
+.page > .description {
+    grid-column: span 2;
+}
+.page > .page_description {
+    grid-column: 1 / span 3;
+  }

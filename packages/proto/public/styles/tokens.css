@@ -11,19 +11,10 @@
 
 }
 body.dark-mode {
-    --color-background-page: black;
+    --color-background-page: grey;
     --color-text: black;
     --color-background-card: white;
     --color-accent: white;
     --color-text-control: rgb(51 51 51);
-    --color-text-control-inverted: var(--color-background-page);
-}
-
-body.dark-mode > header {
-    --color-background-page: rgb(186, 186, 186);
-    --color-text: black;
-    --color-background-card: white;
-    --color-accent: white;
-    --color-text-control: rgb(186, 186, 186);
     --color-text-control-inverted: var(--color-background-page);
 }

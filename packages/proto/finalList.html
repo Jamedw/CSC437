@@ -11,9 +11,10 @@
         <link rel="stylesheet" href="styles/reset.css">
         <script type="module">
               import { define } from "@calpoly/mustang";
-              import { MovieElement } from "/src/poster.ts";
+              import { MovieList } from "/src/movies.ts";
+              import  {MovieElement} from "/src/poster.ts"
               define({
-                "movie-poster": MovieElement
+                "movie-list": MovieList
                 });
         </script>
 
@@ -62,14 +63,11 @@
             Watch Queue
         </h1>
 
-        <ol class="movieList">
-            <li>The dark night rises</li>
-            <li><movie-poster title="shrek" linkUrl="shrek.html" img="/assets/moviePosters/shrek.jpg">
+        <movie-list src="movies.json">
 
-            </movie-poster></li>
-            <li>American Psycho</li>
-            <li>Apocalypss Now</li>
-        </ol>
+        </movie-list>
+
+
         <footer>
             <a href="movies.html">Select Movie Canidate</a>
         </footer>

@@ -13,4 +13,7 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    open: '/finalList.html',
+  },
 })

@@ -1,7 +1,6 @@
 // src/destination.ts
 import { html, css, LitElement } from "lit";
 
-
 export class MovieElement extends LitElement {
     static properties = {
         title: { type: String },
@@ -51,7 +50,7 @@ export class MovieElement extends LitElement {
       font-weight: bold;
       text-align: center;
       text-decoration: none; 
-      color: inherit;
+      color: var(--color-link);
       }
   `;
 }

@@ -1,4 +1,4 @@
-import { html, css, LitElement, TemplateResult } from "lit";
+import { html, css, LitElement } from "lit";
 import { property, state } from "lit/decorators.js";
 import { define } from "@calpoly/mustang";import './poster';
 import { MovieElement } from "./poster"; 

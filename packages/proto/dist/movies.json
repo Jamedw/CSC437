@@ -1,0 +1,12 @@
+[
+    {
+    "title": "Shrek",
+    "link": "shrek.html",
+    "img": "/assets/moviePosters/shrek.jpg"
+    },
+    {
+    "title": "Apocalpse Now",
+    "link": "Apocalpse_Now.html",
+    "img": "/assets/moviePosters/Apocalpse_Now.jpg"
+    }
+]

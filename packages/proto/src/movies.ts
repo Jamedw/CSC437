@@ -7,7 +7,6 @@ interface Movie {
   title: string;
   link: string;
   img: string;
-
 }
 
 define({

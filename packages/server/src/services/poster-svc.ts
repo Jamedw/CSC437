@@ -1,8 +1,8 @@
 // src/services/traveler-svc.ts
 import { Schema, model } from "mongoose";
-import { poster } from "../models/poster";
+import { Poster } from "../models/poster";
 
-const PosterSchema = new Schema<poster>(
+const PosterSchema = new Schema<Poster>(
   {
     title: { type: String, required: true, trim: true }, 
     linkUrl: { type: String, required: true, trim: true },
@@ -11,16 +11,16 @@ const PosterSchema = new Schema<poster>(
   { collection: "poster" }
 );
 
-const PosterModel = model<poster>(
+const PosterModel = model<Poster>(
     "title",
     PosterSchema
 );
 
-function index(): Promise<poster[]> {
+function index(): Promise<Poster[]> {
     return PosterModel.find();
 }
 
-function get(title: String): Promise<poster> {
+function get(title: String): Promise<Poster> {
 return PosterModel.find({title})
     .then((list) => list[0])
     .catch((err) => {

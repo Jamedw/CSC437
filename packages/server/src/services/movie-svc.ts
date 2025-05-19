@@ -1,8 +1,8 @@
 // src/services/traveler-svc.ts
 import { Schema, model } from "mongoose";
-import { movie } from "../models/movie";
+import { Movie } from "../models/movie";
 
-const MovieSchema = new Schema<movie>(
+const MovieSchema = new Schema<Movie>(
   {
     title: String,
     genres: Array<String>,
@@ -13,16 +13,16 @@ const MovieSchema = new Schema<movie>(
   { collection: "movie" }
 );
 
-const MovieModel = model<movie>(
+const MovieModel = model<Movie>(
     "movie_title",
     MovieSchema
 );
 
-function index(): Promise<movie[]> {
+function index(): Promise<Movie[]> {
     return MovieModel.find();
 }
 
-function get(title: String): Promise<movie> {
+function get(title: String): Promise<Movie> {
 return MovieModel.find({title})
     .then((list) => list[0])
     .catch((err) => {

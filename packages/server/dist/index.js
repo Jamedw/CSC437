@@ -24,6 +24,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
 var import_poster_svc = __toESM(require("./services/poster-svc"));
+var import_movie_svc = __toESM(require("./services/movie-svc"));
 (0, import_mongo.connect)("movie_royal");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
@@ -36,8 +37,15 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 app.get("/poster/:title", (req, res) => {
-  const { title } = req.params;
+  let { title } = req.params;
   import_poster_svc.default.get(title).then((data) => {
+    if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));
+    else res.status(404).send();
+  });
+});
+app.get("/movie/:title", (req, res) => {
+  let { title } = req.params;
+  import_movie_svc.default.get(title).then((data) => {
     if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));
     else res.status(404).send();
   });

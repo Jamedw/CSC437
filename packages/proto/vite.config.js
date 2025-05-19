@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        sub: resolve(__dirname, '/public/shrek.html'),
+        shrek: resolve(__dirname, 'shrek.html')
       },
     },
   },

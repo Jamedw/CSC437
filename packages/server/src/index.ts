@@ -2,6 +2,8 @@
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
 import Posters from "./services/poster-svc";
+import Movies from "./services/movie-svc";
+
 
 connect("movie_royal"); // use your own db name here
 
@@ -22,8 +24,20 @@ app.listen(port, () => {
 });
 
 app.get("/poster/:title", (req: Request, res: Response) => {
-  const { title } = req.params;
+  let { title } = req.params;
   Posters.get(title).then((data) => {
+    if (data) res
+      .set("Content-Type", "application/json")
+      .send(JSON.stringify(data));
+    else res
+      .status(404).send();
+  });
+});
+
+
+app.get("/movie/:title", (req: Request, res: Response) => {
+  let { title } = req.params;
+  Movies.get(title).then((data) => {
     if (data) res
       .set("Content-Type", "application/json")
       .send(JSON.stringify(data));

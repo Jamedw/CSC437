@@ -3,9 +3,14 @@
     <head>
         <link rel="stylesheet" href="/styles/tokens.css">
         <link rel="stylesheet" href="/styles/page.css">
+        <script type="module">
+            import { define } from "@calpoly/mustang";
+            import  {MovieDescriptionElement} from "/src/movie_page.ts" 
+            define({
+              "movie-desription": MovieDescriptionElement
+              });
+      </script>
     
-      <script type="module" crossorigin src="/assets/shrek-D3DiN4iP.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/property-6n6DIx1f.js">
     </head>
 
     <body>

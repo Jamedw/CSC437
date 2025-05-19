@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/styles/tokens.css">
+        <link rel="stylesheet" href="/styles/page.css">
+
+        <script type="module">
+            import { define } from "@calpoly/mustang";
+            import { MovieList } from "/src/movies.ts";
+            import  {MovieElement} from "/src/poster.ts"
+            define({
+              "movie-list": MovieList
+              });
+      </script>
+    </head>
+    <body>
+
+        <h1>Movies</h1>
+        <movie-list src="movies.json">
+        </movie-list>
+        <footer>
+            <a href="canidates.html">submit</a>
+        </footer>
+    </body>
+</html>

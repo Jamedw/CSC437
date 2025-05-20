@@ -4,6 +4,7 @@ import { connect } from "./services/mongo";
 import Posters from "./services/poster-svc";
 import Movies from "./services/movie-svc";
 import users from "./routes/users"
+import auth, { authenticateUser } from "./routes/auth";
 
 connect("movie_royal"); // use your own db name here
 
@@ -14,7 +15,8 @@ const staticDir = process.env.STATIC || "public";
 
 app.use(express.static(staticDir));
 app.use(express.json());
-app.use("/api/users", users);
+app.use("/api/users", authenticateUser, users);
+app.use("/auth", auth);
 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");
@@ -24,7 +26,7 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-app.get("/poster/:title", (req: Request, res: Response) => {
+app.get("/poster/:title", authenticateUser, (req: Request, res: Response) => {
   let { title } = req.params;
   Posters.get(title).then((data) => {
     if (data) res

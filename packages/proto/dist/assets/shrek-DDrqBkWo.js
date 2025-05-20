@@ -1,4 +1,4 @@
-import{i as p,x as c,a as b,n as o,d as g}from"./property-6n6DIx1f.js";var u=Object.defineProperty,d=(n,i,r,e)=>{for(var s=void 0,a=n.length-1,h;a>=0;a--)(h=n[a])&&(s=h(i,r,s)||s);return s&&u(i,r,s),s};const l=class l extends p{constructor(){super(...arguments),this.src="",this.imgSrc="",this.genres=[],this.title="",this.description="",this.cast=[]}connectedCallback(){super.connectedCallback(),this.src&&this.hydrate(this.src)}render(){var i,r;return c`
+import{i as p,x as c,a as b,n as o,d as g}from"./property-BEtx6N0r.js";var u=Object.defineProperty,d=(n,i,r,e)=>{for(var s=void 0,a=n.length-1,h;a>=0;a--)(h=n[a])&&(s=h(i,r,s)||s);return s&&u(i,r,s),s};const l=class l extends p{constructor(){super(...arguments),this.src="",this.imgSrc="",this.genres=[],this.title="",this.description="",this.cast=[]}connectedCallback(){super.connectedCallback(),this.src&&this.hydrate(this.src)}render(){var i,r;return c`
         <h1 class="page_description">
             ${this.title}
         </h1>

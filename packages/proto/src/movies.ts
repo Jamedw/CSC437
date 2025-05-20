@@ -1,6 +1,10 @@
 import { html, css, LitElement } from "lit";
 import { property, state } from "lit/decorators.js";
-import { define } from "@calpoly/mustang";import './poster';
+import {
+  define,
+  Auth,
+  Observer
+} from "@calpoly/mustang";
 import { MovieElement } from "./poster"; 
 
 interface Movie {
@@ -9,30 +13,52 @@ interface Movie {
   img: string;
 }
 
+
 define({
   "movie-element": MovieElement
   });
 
 export class MovieList extends LitElement {
+
+  @state()
+  loggedIn = false;
+
+  @state()
+  userid?: string;
+
   @property()
   src?: string;
 
   @state()
   movies: Array<Movie> = [];
   
-  connectedCallback() {
-    super.connectedCallback();
-    if (this.src) this.hydrate(this.src);
-  }
+
 
   hydrate(src: string) {
     fetch(src)
     .then(res => res.json())
     .then((json: object) => {
-      if(json) {
-        this.movies = json as Movie[];
+      if (json) {
+        let data = json as { titles: string[] };
+        const posterPromises: Promise<Movie>[] = data.titles.map(async (movie_title) => {
+          const response = await fetch(`poster/${movie_title}`, { headers: this.authorization });
+          const movieData = await response.json() as Movie;
+          return movieData;
+        });
+
+        Promise.all(posterPromises)
+          .then(movies => {
+            this.movies = movies;
+            console.log("Movies hydrated:", this.movies);
+          })
+          .catch(error => {
+            console.error("Error fetching poster data:", error);
+          });
       }
     })
+    .catch(error => {
+      console.error("Error fetching or parsing movie title data:", error);
+    });
   }
 
 
@@ -47,6 +73,7 @@ export class MovieList extends LitElement {
   }
 
   render() {
+    console.log(this.movies)
     return html`
         <ol class="movieList">
         ${this.movies.map(movie => this.renderMovie(movie))
@@ -81,8 +108,26 @@ export class MovieList extends LitElement {
       line-height: var(--line-height);
       border-radius: var(--border-radius);
       }
-
-
     `;
   }
+  _authObserver = new Observer<Auth.Model>(this, "blazing:auth");
+  _user?: Auth.User;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this._authObserver.observe((auth: Auth.Model) => {
+      this._user = auth.user;
+      if (this.src) this.hydrate(this.src);
+    });
+  }
+
+  get authorization(): { Authorization?: string } {
+    if (this._user && this._user.authenticated)
+      return {
+        Authorization:
+          `Bearer ${(this._user as Auth.AuthenticatedUser).token}`
+      };
+    else return {};
+  }
+
 }

@@ -9,61 +9,24 @@
         <link rel="stylesheet" href="/styles/tokens.css">
         <link rel="stylesheet" href="/styles/page.css">
         <link rel="stylesheet" href="styles/reset.css">
-
-        <script>
-            function relayEvent(originalEvent, customEventName, detail) {
-            const customEvent = new CustomEvent(customEventName, {
-                bubbles: true,  
-                cancelable: true, 
-                detail: detail  
-            });
-            originalEvent.target.dispatchEvent(customEvent);
-            originalEvent.stopPropagation(); 
-            }
-
-            document.body.addEventListener('dark-mode', (event) => {
-               const checked = event.detail.checked;
-               document.body.classList.toggle('dark-mode', !checked);
-             });
-        </script>
-
-      <script type="module" crossorigin src="/assets/main-B8endj-1.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/property-6n6DIx1f.js">
+      <script type="module" crossorigin src="/assets/main-BJwKO1if.js"></script>
+      <link rel="modulepreload" crossorigin href="/assets/property-BEtx6N0r.js">
+      <link rel="modulepreload" crossorigin href="/assets/reset.css-CnD5YrwS.js">
     </head>
     
-    <body>
-        <header>
-            <p1 class="title">
-                Movie Royal
-            </p1>
-            <nav>
-                <p1>
-                    jadwyer
-                </p1>  
-                <svg class="icon">
-                    <use href="./icons/movies.svg#movie-icon1" />
-                </svg>  
-                <label
-                onchange="relayEvent(
-                  event,
-                  'dark-mode',
-                  {checked: event.target.checked})"
-              >
-                <input type="checkbox" value="1"/> Dark mode
-              </label>
-            </nav>
-        </header>
-        <h1 class="page_description">
-            Watch Queue
-        </h1>
+        <body>
+            <mu-auth provides="blazing:auth">
+                <ryl-header>
+                </ryl-header>
+                <h1 class="page_description">
+                    Watch Queue
+                </h1>
+                <movie-list src="movies.json">
 
-        <movie-list src="movies.json">
-
-        </movie-list>
-
-
-        <footer>
-            <a href="movies.html">Select Movie Canidate</a>
-        </footer>
-    </body>
+                </movie-list>
+                <footer>
+                    <a href="movies.html">Select Movie Canidate</a>
+                </footer>
+            </mu-auth>
+        </body>        
 </html>

@@ -26,20 +26,22 @@ var import_mongo = require("./services/mongo");
 var import_poster_svc = __toESM(require("./services/poster-svc"));
 var import_movie_svc = __toESM(require("./services/movie-svc"));
 var import_users = __toESM(require("./routes/users"));
+var import_auth = __toESM(require("./routes/auth"));
 (0, import_mongo.connect)("movie_royal");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
-app.use("/api/users", import_users.default);
+app.use("/api/users", import_auth.authenticateUser, import_users.default);
+app.use("/auth", import_auth.default);
 app.get("/hello", (req, res) => {
   res.send("Hello, World");
 });
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
-app.get("/poster/:title", (req, res) => {
+app.get("/poster/:title", import_auth.authenticateUser, (req, res) => {
   let { title } = req.params;
   import_poster_svc.default.get(title).then((data) => {
     if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));

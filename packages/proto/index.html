@@ -10,66 +10,34 @@
         <link rel="stylesheet" href="/styles/page.css">
         <link rel="stylesheet" href="styles/reset.css">
         <script type="module">
-              import { define } from "@calpoly/mustang";
-              import { MovieList } from "/src/movies.ts";
-              import  {MovieElement} from "/src/poster.ts"
-              define({
-                "movie-list": MovieList
-                });
-        </script>
+            import { define, Auth} from "@calpoly/mustang";
+            import { MovieList } from "/src/movies.ts";
+            import  {MovieElement} from "/src/poster.ts";
+            import {HeaderElement} from "/src/header.ts"
 
-        <script>
-            function relayEvent(originalEvent, customEventName, detail) {
-            const customEvent = new CustomEvent(customEventName, {
-                bubbles: true,  
-                cancelable: true, 
-                detail: detail  
+            define({
+            "ryl-header": HeaderElement,
+            "movie-list": MovieList,
+            "mu-auth": Auth.Provider
             });
-            originalEvent.target.dispatchEvent(customEvent);
-            originalEvent.stopPropagation(); 
-            }
-
-            document.body.addEventListener('dark-mode', (event) => {
-               const checked = event.detail.checked;
-               document.body.classList.toggle('dark-mode', !checked);
-             });
+            HeaderElement.initializeOnce();
+            
         </script>
-
     </head>
     
-    <body>
-        <header>
-            <p1 class="title">
-                Movie Royal
-            </p1>
-            <nav>
-                <p1>
-                    jadwyer
-                </p1>  
-                <svg class="icon">
-                    <use href="./icons/movies.svg#movie-icon1" />
-                </svg>  
-                <label
-                onchange="relayEvent(
-                  event,
-                  'dark-mode',
-                  {checked: event.target.checked})"
-              >
-                <input type="checkbox" value="1"/> Dark mode
-              </label>
-            </nav>
-        </header>
-        <h1 class="page_description">
-            Watch Queue
-        </h1>
+        <body>
+            <mu-auth provides="blazing:auth">
+                <ryl-header>
+                </ryl-header>
+                <h1 class="page_description">
+                    Watch Queue
+                </h1>
+                <movie-list src="movies.json">
 
-        <movie-list src="movies.json">
-
-        </movie-list>
-
-
-        <footer>
-            <a href="movies.html">Select Movie Canidate</a>
-        </footer>
-    </body>
+                </movie-list>
+                <footer>
+                    <a href="movies.html">Select Movie Canidate</a>
+                </footer>
+            </mu-auth>
+        </body>        
 </html>

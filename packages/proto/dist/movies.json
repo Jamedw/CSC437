@@ -1,12 +1,3 @@
-[
-    {
-    "title": "Shrek",
-    "link": "shrek.html",
-    "img": "/assets/moviePosters/shrek.jpg"
-    },
-    {
-    "title": "Apocalypse Now",
-    "link": "apocalypse_now.html",
-    "img": "/assets/moviePosters/apocalypse_now.jpg"
-    }
-]
+{
+    "titles": ["shrek", "Apocalypse Now"]
+}

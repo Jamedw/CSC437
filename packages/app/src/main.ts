@@ -6,8 +6,7 @@ import {
   Switch
 } from "@calpoly/mustang"
 import { Msg } from "./messages";
-import { init, Model } from "./model";
-import update from "./update";
+import { Model } from "./model";
 import { html, LitElement } from "lit"
 import { HeaderElement } from "./components/header"
 import { HomeViewElement } from "./views/home-view";
@@ -57,9 +56,7 @@ const routes: Switch.Route[] = [
       Model,
       Msg
     > {
-      constructor() {
-        super(update, init, "blazing:auth");
-      }
+
     },
     "mu-switch": class AppSwitch extends Switch.Element {
       constructor() {

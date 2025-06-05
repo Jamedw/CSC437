@@ -1,7 +1,7 @@
 import { define, Form, View } from "@calpoly/mustang";
 import { html, css } from "lit";
 import { property, state } from "lit/decorators.js";
-import { User, MovieRoyale, Movie } from "";
+import { User, MovieRoyale, Movie } from "server/models";
 import { Msg } from "../messages.js";
 import { Model } from "../model";
 import reset from "../styles/reset.css.js";

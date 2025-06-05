@@ -1,0 +1,162 @@
+body {
+    background-color: var(--color-background-page);
+    color: var(--color-text);
+    font-family: "Playfair Display", serif;
+}
+
+
+div {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+svg.icon {
+    display: inline;
+    height: 2em;
+    width: 2em;
+    vertical-align: top;
+    fill: currentColor;
+}
+
+
+h1 {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+a {
+    color: var(--color-link);
+}
+table {
+    width: 50%;
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    border: .15em solid var(--color-accent);
+    border-spacing: .5em;
+    border-radius: .8em;
+}
+
+ol {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+}
+
+nav {
+    display: grid;
+    --page-grids: 2;
+  
+    display: grid;
+    grid-template-columns: repeat(
+      var(--page-grids), 1fr
+    );
+
+    gap:
+      var(--size-spacing-medium);
+}
+nav > label {
+    grid-column: 1 / span 3;
+}
+
+
+dl {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+}
+
+ul {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+}
+header {
+    display: flex; /* etc., as before */
+    font-family: "Alegreya", serif;
+    background-color: var(--color-accent);
+    color: var(--color-text);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 2.5em;
+    box-shadow: var(--box-shadow);
+}
+
+header > .title{
+    width: 80%;
+}
+header > .settings{
+    width: 30%;
+}
+
+footer {
+    background-color: var(--color-accent);
+    box-shadow: var(--box-shadow);
+    line-height: var(--line-height);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.movieList {
+    display: flex; /* etc., as before */
+    flex-wrap: wrap;
+
+    list-style: none;
+  & > * {
+    width: fit-content;
+    flex-grow: 1;
+    flex-basis: 0%;
+	@media screen and (max-width: 30rem) {
+      /* override for mobile: */
+      flex-basis: auto;
+    }
+  }
+}
+
+li {
+    padding: 10%;
+    margin: 1%;
+    border: 1px;
+    border-style: solid;
+    border-radius: 10%;
+    border-color: black;
+}
+
+
+
+.page {
+    --page-grids: 3;
+  
+    display: grid;
+    grid-template-columns: repeat(
+      var(--page-grids), 1fr
+    );
+
+    gap:
+      var(--size-spacing-medium);
+  }
+  
+  .page > header {
+    grid-column: 1 / span 3;
+  }
+  .page > footer {
+    grid-column: 1 / span 3;
+  }
+
+
+
+.page > .description {
+    grid-column: span 2;
+}
+.page > .page_description {
+    grid-column: 1 / span 3;
+  }

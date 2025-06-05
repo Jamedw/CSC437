@@ -27,19 +27,23 @@ var import_poster_svc = __toESM(require("./services/poster-svc"));
 var import_movie_svc = __toESM(require("./services/movie-svc"));
 var import_users = __toESM(require("./routes/users"));
 var import_auth = __toESM(require("./routes/auth"));
+var import_promises = __toESM(require("node:fs/promises"));
+var import_path = __toESM(require("path"));
 (0, import_mongo.connect)("movie_royal");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
+console.log("Serving static files from ", staticDir);
 app.use(import_express.default.static(staticDir));
-app.use(import_express.default.json());
 app.use("/api/users", import_auth.authenticateUser, import_users.default);
 app.use("/auth", import_auth.default);
-app.get("/hello", (req, res) => {
-  res.send("Hello, World");
-});
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.get("/ping", (_, res) => {
+  res.send(
+    `<h1>Hello!</h1>
+     <p>Server is up and running.</p>
+     <p>Serving static files from <code>${staticDir}</code>.</p>
+    `
+  );
 });
 app.get("/poster/:title", import_auth.authenticateUser, (req, res) => {
   let { title } = req.params;
@@ -54,4 +58,13 @@ app.get("/movie/:title", (req, res) => {
     if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));
     else res.status(404).send();
   });
+});
+app.use("/app", (_, res) => {
+  const indexHtml = import_path.default.resolve(staticDir, "index.html");
+  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(
+    (html) => res.send(html)
+  );
+});
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

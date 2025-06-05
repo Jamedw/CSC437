@@ -1,6 +1,6 @@
 // src/services/traveler-svc.ts
 import { Schema, model } from "mongoose";
-import { User } from "../models/user";
+import { User } from "../models/User";
 
 const UserSchema = new Schema<User>(
   {

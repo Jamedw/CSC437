@@ -1,6 +1,6 @@
 // src/services/traveler-svc.ts
 import { Schema, model } from "mongoose";
-import { Movie } from "../models/movie";
+import { Movie } from "../models/Movie";
 
 const MovieSchema = new Schema<Movie>(
   {

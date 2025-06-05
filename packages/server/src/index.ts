@@ -5,6 +5,8 @@ import Posters from "./services/poster-svc";
 import Movies from "./services/movie-svc";
 import users from "./routes/users"
 import auth, { authenticateUser } from "./routes/auth";
+import fs from "node:fs/promises";
+import path from "path";
 
 connect("movie_royal"); // use your own db name here
 
@@ -12,18 +14,20 @@ const app = express();
 const port = process.env.PORT || 3000;
 const staticDir = process.env.STATIC || "public";
 
-
+console.log("Serving static files from ", staticDir);
 app.use(express.static(staticDir));
-app.use(express.json());
+
 app.use("/api/users", authenticateUser, users);
 app.use("/auth", auth);
 
-app.get("/hello", (req: Request, res: Response) => {
-    res.send("Hello, World");
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// Page Routes:
+app.get("/ping", (_: Request, res: Response) => {
+  res.send(
+    `<h1>Hello!</h1>
+     <p>Server is up and running.</p>
+     <p>Serving static files from <code>${staticDir}</code>.</p>
+    `
+  );
 });
 
 app.get("/poster/:title", authenticateUser, (req: Request, res: Response) => {
@@ -47,4 +51,17 @@ app.get("/movie/:title", (req: Request, res: Response) => {
     else res
       .status(404).send();
   });
+});
+
+// SPA Routes: /app/...
+app.use("/app", (_: Request, res: Response) => {
+  const indexHtml = path.resolve(staticDir, "index.html");
+  fs.readFile(indexHtml, { encoding: "utf8" }).then((html) =>
+    res.send(html)
+  );
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });

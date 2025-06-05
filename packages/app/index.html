@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en"></html>
+    <head>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/styles/tokens.css">
+        <link rel="stylesheet" href="/styles/page.css">
+        <link rel="stylesheet" href="styles/reset.css">
+        <script type ="module" src="/src/main"></script>
+    </head>    
+    <body>
+        <mu-history provides="blazing:history">
+            <mu-auth provides="blazing:auth" redirect="/login.html">
+                <mu-store provides="blazing:model">
+                    <article class="page">
+                        <ryl-header>
+                        </ryl-header>
+                        <mu-switch></mu-switch>
+                    </article>
+                </mu-store>
+            </mu-auth>
+        </mu-history>
+    </body>        
+</html>

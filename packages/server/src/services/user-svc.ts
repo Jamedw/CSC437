@@ -1,59 +1,94 @@
-// src/services/traveler-svc.ts
+
 import { Schema, model } from "mongoose";
-import { User } from "../models/User";
+import { User , userProfileModel, userSchema} from "../models/User";
 
-const UserSchema = new Schema<User>(
-  {
-    username: String,
-    password: String,
-    movie_royales: Array<String>,
-    friends: Array<String>
-  },
-  { collection: "users" }
-);
 
-const UserModel = model<User>(
-    "Username",
-    UserSchema
-);
-
-function index(): Promise<User[]> {
-    return UserModel.find();
+async function getUserProfile(username: string): Promise<User | null> {
+    return userProfileModel.findOne({ name: username })
+        .populate('friends', 'name') 
+        .populate('favoriteMovies')
+        .populate('movieRoyales');  
+                                
 }
 
-function get(username: String): Promise<User> {
-return UserModel.find({username})
-    .then((list) => list[0])
-    .catch((err) => {
-    throw `${username} Not Found`;
-    });
+async function addFavoriteMovie(username: string, movieId: string): Promise<User> {
+    const user = await userProfileModel.findOne({ name: username });
+    if (!user) {
+        throw new Error("User not found.");
+    }
+    if (user.favoriteMovies?.some(mId => mId.toString() === movieId)) {
+        throw new Error("Movie already in favorites.");
+    }
+    user.favoriteMovies?.push(new Schema.Types.ObjectId(movieId)); 
+    return user.save();
 }
 
-function create(json: User): Promise<User> {
-    const t = new UserModel(json);
-    return t.save();
+async function removeFavoriteMovie(username: string, movieId: string): Promise<User> {
+    const user = await userProfileModel.findOne({ name: username });
+    if (!user) {
+        throw new Error("User not found.");
+    }
+    user.favoriteMovies = user.favoriteMovies?.filter(mId => mId.toString() !== movieId);
+    return user.save();
+}
+
+
+async function addMovieRoyaleToUser(username: string, royaleId: string): Promise<User> {
+  const user = await userProfileModel.findOne({ name: username });
+  if (!user) {
+      throw new Error("User not found.");
   }
   
-
-// in src/services/traveler-svc.ts
-function update(
-    username: String,
-    user: User
-  ): Promise<User> {
-    return UserModel.findOneAndUpdate({ username }, user, {
-      new: true
-    }).then((updated) => {
-      if (!updated) throw `${username} not updated`;
-      else return updated as User;
-    });
+  if (user.movieRoyales?.some(rId => rId.toString() === royaleId)) {
+      throw new Error("User already linked to this Movie Royale.");
   }
-
-function remove(username: String): Promise<void> {
-return UserModel.findOneAndDelete({username }).then(
-    (deleted) => {
-    if (!deleted) throw `${username} not deleted`;
-    }
-);
+  user.movieRoyales.push(new Schema.Types.ObjectId(royaleId));
+  return user.save();
 }
 
-export default { index, get , create, update, remove};
+async function removeMovieRoyaleFromUser(username: string, royaleId: string): Promise<User> {
+  const user = await userProfileModel.findOne({ name: username });
+  if (!user) {
+      throw new Error("User not found.");
+  }
+  user.movieRoyales = user.movieRoyales.filter(rId => rId.toString() !== royaleId);
+  return user.save();
+}
+
+async function index(): Promise<User[]> {
+    return userProfileModel.find({});
+}
+
+async function get(username: string): Promise<User | null> {
+    return userProfileModel.findOne({ name: username });
+}
+
+async function create(userData: Partial<User>): Promise<User> {
+    const newUser = new userProfileModel(userData);
+    return newUser.save();
+}
+
+async function update(username: string, updates: Partial<User>): Promise<User | null> {
+    // Note: You might want to prevent direct updates to referenced arrays like friends,
+    // favoriteMovies, movieRoyales using this generic update.
+    // For those, it's better to use specific functions like addFavoriteMovie etc.
+    return userProfileModel.findOneAndUpdate({ name: username }, updates, { new: true });
+}
+
+async function remove(username: string): Promise<void> {
+    await userProfileModel.deleteOne({ name: username });
+}
+
+
+export {
+  addFavoriteMovie,
+  removeFavoriteMovie,
+  addMovieRoyaleToUser,
+  removeMovieRoyaleFromUser,
+  getUserProfile, 
+  index,
+  get,
+  create,
+  update,
+  remove
+};

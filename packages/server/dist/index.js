@@ -23,9 +23,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var import_express = __toESM(require("express"));
 var import_mongo = require("./services/mongo");
-var import_poster_svc = __toESM(require("./services/poster-svc"));
-var import_movie_svc = __toESM(require("./services/movie-svc"));
 var import_users = __toESM(require("./routes/users"));
+var import_movieRoyales = __toESM(require("./routes/movieRoyales"));
 var import_auth = __toESM(require("./routes/auth"));
 var import_promises = __toESM(require("node:fs/promises"));
 var import_path = __toESM(require("path"));
@@ -35,7 +34,9 @@ const port = process.env.PORT || 3e3;
 const staticDir = process.env.STATIC || "public";
 console.log("Serving static files from ", staticDir);
 app.use(import_express.default.static(staticDir));
+app.use(import_express.default.json());
 app.use("/api/users", import_auth.authenticateUser, import_users.default);
+app.use("/api/movieRoyales", import_auth.authenticateUser, import_movieRoyales.default);
 app.use("/auth", import_auth.default);
 app.get("/ping", (_, res) => {
   res.send(
@@ -45,19 +46,14 @@ app.get("/ping", (_, res) => {
     `
   );
 });
-app.get("/poster/:title", import_auth.authenticateUser, (req, res) => {
-  let { title } = req.params;
-  import_poster_svc.default.get(title).then((data) => {
-    if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));
-    else res.status(404).send();
-  });
+app.get("/login", (req, res) => {
+  res.set("Content-Type", "text/html").send(renderPage(LoginPage.render()));
 });
-app.get("/movie/:title", (req, res) => {
-  let { title } = req.params;
-  import_movie_svc.default.get(title).then((data) => {
-    if (data) res.set("Content-Type", "application/json").send(JSON.stringify(data));
-    else res.status(404).send();
-  });
+app.get("/register", (req, res) => {
+  res.set("Content-Type", "text/html").send(renderPage(RegistrationPage.render()));
+});
+app.get("/login", (req, res) => {
+  res.set("Content-Type", "text/html").send(renderPage(LoginPage.render()));
 });
 app.use("/app", (_, res) => {
   const indexHtml = import_path.default.resolve(staticDir, "index.html");

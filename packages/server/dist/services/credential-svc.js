@@ -33,6 +33,7 @@ __export(credential_svc_exports, {
 module.exports = __toCommonJS(credential_svc_exports);
 var import_bcryptjs = __toESM(require("bcryptjs"));
 var import_mongoose = require("mongoose");
+var import_User = require("../models/User");
 const credentialSchema = new import_mongoose.Schema(
   {
     username: {
@@ -53,14 +54,24 @@ const credentialModel = (0, import_mongoose.model)(
 );
 function create(username, password) {
   return credentialModel.find({ username }).then((found) => {
-    if (found.length) throw `Username exists: ${username}`;
+    if (found.length) {
+      throw `Username exists: ${username}`;
+    }
   }).then(
-    () => import_bcryptjs.default.genSalt(10).then((salt) => import_bcryptjs.default.hash(password, salt)).then((hashedPassword) => {
+    () => import_bcryptjs.default.genSalt(10).then((salt) => import_bcryptjs.default.hash(password, salt)).then(async (hashedPassword) => {
       const creds = new credentialModel({
         username,
         hashedPassword
       });
-      return creds.save();
+      const savedCredential = await creds.save();
+      const newUserProfile = new import_User.userProfileModel({
+        name: username,
+        movieRoyales: [],
+        favoriteMovies: [],
+        friends: []
+      });
+      await newUserProfile.save();
+      return savedCredential;
     })
   );
 }

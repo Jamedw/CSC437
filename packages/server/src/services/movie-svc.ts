@@ -2,32 +2,32 @@
 import { Schema, model } from "mongoose";
 import { Movie } from "../models/Movie";
 
-const MovieSchema = new Schema<Movie>(
-  {
-    title: String,
-    genres: Array<String>,
-    cast: Array<String>,
-    description: String,
-    imgSrc: String,
-  },
-  { collection: "movie" }
+
+const movieSchema = new Schema<Movie>(
+    {
+        title: { type: String, required: true, trim: true },
+        releaseYear: { type: Number, required: true },
+        genres: [{ type: String }], // Array of strings
+        cast: [{ type: String }],   // Array of strings
+        description: { type: String },
+        imgSrc: { type: String },
+    },
+    { collection: 'movies', timestamps: true } // Store movies in a 'movies' collection
 );
 
-const MovieModel = model<Movie>(
-    "movie_title",
-    MovieSchema
-);
+const movieModel = model<Movie>('Movie', movieSchema);
 
-function index(): Promise<Movie[]> {
-    return MovieModel.find();
+// Example functions for movie service
+async function createMovie(movieData: Omit<Movie, '_id'>): Promise<Movie> {
+    const newMovie = new movieModel(movieData);
+    return newMovie.save();
 }
 
-function get(title: String): Promise<Movie> {
-return MovieModel.find({title})
-    .then((list) => list[0])
-    .catch((err) => {
-    throw `${title} Not Found`;
-    });
+async function getMovieById(id: string): Promise<Movie | null> {
+    return movieModel.findById(id);
 }
 
-export default { index, get };
+// ... other functions like updateMovie, deleteMovie, searchMovies
+
+export default movieModel;
+export { createMovie, getMovieById };

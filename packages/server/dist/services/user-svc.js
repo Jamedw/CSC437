@@ -18,48 +18,87 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var user_svc_exports = {};
 __export(user_svc_exports, {
-  default: () => user_svc_default
+  addFavoriteMovie: () => addFavoriteMovie,
+  addMovieRoyaleToUser: () => addMovieRoyaleToUser,
+  create: () => create,
+  get: () => get,
+  getUserProfile: () => getUserProfile,
+  index: () => index,
+  remove: () => remove,
+  removeFavoriteMovie: () => removeFavoriteMovie,
+  removeMovieRoyaleFromUser: () => removeMovieRoyaleFromUser,
+  update: () => update
 });
 module.exports = __toCommonJS(user_svc_exports);
 var import_mongoose = require("mongoose");
-const UserSchema = new import_mongoose.Schema(
-  {
-    username: String,
-    password: String,
-    movie_royales: Array,
-    friends: Array
-  },
-  { collection: "users" }
-);
-const UserModel = (0, import_mongoose.model)(
-  "Username",
-  UserSchema
-);
-function index() {
-  return UserModel.find();
+var import_User = require("../models/User");
+async function getUserProfile(username) {
+  return import_User.userProfileModel.findOne({ name: username }).populate("friends", "name").populate("favoriteMovies").populate("movieRoyales");
 }
-function get(username) {
-  return UserModel.find({ username }).then((list) => list[0]).catch((err) => {
-    throw `${username} Not Found`;
-  });
+async function addFavoriteMovie(username, movieId) {
+  const user = await import_User.userProfileModel.findOne({ name: username });
+  if (!user) {
+    throw new Error("User not found.");
+  }
+  if (user.favoriteMovies?.some((mId) => mId.toString() === movieId)) {
+    throw new Error("Movie already in favorites.");
+  }
+  user.favoriteMovies?.push(new import_mongoose.Schema.Types.ObjectId(movieId));
+  return user.save();
 }
-function create(json) {
-  const t = new UserModel(json);
-  return t.save();
+async function removeFavoriteMovie(username, movieId) {
+  const user = await import_User.userProfileModel.findOne({ name: username });
+  if (!user) {
+    throw new Error("User not found.");
+  }
+  user.favoriteMovies = user.favoriteMovies?.filter((mId) => mId.toString() !== movieId);
+  return user.save();
 }
-function update(username, user) {
-  return UserModel.findOneAndUpdate({ username }, user, {
-    new: true
-  }).then((updated) => {
-    if (!updated) throw `${username} not updated`;
-    else return updated;
-  });
+async function addMovieRoyaleToUser(username, royaleId) {
+  const user = await import_User.userProfileModel.findOne({ name: username });
+  if (!user) {
+    throw new Error("User not found.");
+  }
+  if (user.movieRoyales?.some((rId) => rId.toString() === royaleId)) {
+    throw new Error("User already linked to this Movie Royale.");
+  }
+  user.movieRoyales.push(new import_mongoose.Schema.Types.ObjectId(royaleId));
+  return user.save();
 }
-function remove(username) {
-  return UserModel.findOneAndDelete({ username }).then(
-    (deleted) => {
-      if (!deleted) throw `${username} not deleted`;
-    }
-  );
+async function removeMovieRoyaleFromUser(username, royaleId) {
+  const user = await import_User.userProfileModel.findOne({ name: username });
+  if (!user) {
+    throw new Error("User not found.");
+  }
+  user.movieRoyales = user.movieRoyales.filter((rId) => rId.toString() !== royaleId);
+  return user.save();
 }
-var user_svc_default = { index, get, create, update, remove };
+async function index() {
+  return import_User.userProfileModel.find({});
+}
+async function get(username) {
+  return import_User.userProfileModel.findOne({ name: username });
+}
+async function create(userData) {
+  const newUser = new import_User.userProfileModel(userData);
+  return newUser.save();
+}
+async function update(username, updates) {
+  return import_User.userProfileModel.findOneAndUpdate({ name: username }, updates, { new: true });
+}
+async function remove(username) {
+  await import_User.userProfileModel.deleteOne({ name: username });
+}
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  addFavoriteMovie,
+  addMovieRoyaleToUser,
+  create,
+  get,
+  getUserProfile,
+  index,
+  remove,
+  removeFavoriteMovie,
+  removeMovieRoyaleFromUser,
+  update
+});

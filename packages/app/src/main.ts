@@ -6,43 +6,39 @@ import {
   Switch
 } from "@calpoly/mustang"
 import { Msg } from "./messages";
-import { Model } from "./model";
+import update from "./update";
+import { Model, init} from "./model";
 import { html, LitElement } from "lit"
 import { HeaderElement } from "./components/header"
-import { HomeViewElement } from "./views/home-view";
 import { TestViewElement } from "./views/test-view";
+import { ProfileViewElement } from "./views/profile-view";
+import { HomeViewElement } from "./views/home-view";
 
 
 
 const routes: Switch.Route[] = [
-    {
-      path: "/app/tour/:id",
-      view: (params: Switch.Params) => html`
-        <tour-view tour-id=${params.id}></tour-view>
-      `
-    },
-    {
-      auth: "protected",
-      path: "/app",
-      view: () => html`<home-view></home-view>`
-    },
-    {
-      path: "/",
-      redirect: "/app"
-    },
-    {
-      path: "/app/test",
-      view: (params: Switch.Params) => html`
-      <test-view param=${params}></test-view>
-      `
-    }
-  ];
+  {
+    auth: "protected",
+    path: "/app/user/:id",
+    view: (params: Switch.Params) => html`
+    <profile-view user-id=${params.id}></profile-view>`
+  },
+  {
+    path: "/",
+    redirect: "/app/test"
+  },
+  {
+    path: "/app/test",
+    view: (params: Switch.Params) => html`
+    <test-view param=${params}></test-view>
+    `
+  }
+];
 
   class AppElement extends LitElement {
     render() {
       return html`<mu-switch></mu-switch>`;
     }
-  
     connectedCallback() {
       super.connectedCallback();
       HeaderElement.initializeOnce();
@@ -52,20 +48,20 @@ const routes: Switch.Route[] = [
   define({
     "mu-auth": Auth.Provider,
     "mu-history": History.Provider,
-    "mu-store": class AppStore extends Store.Provider<
-      Model,
-      Msg
-    > {
-
-    },
+    "mu-store": class AppStore extends Store.Provider<Model, Msg>{
+    constructor() {
+      super(update, init, "blazing:auth");
+    }
+  },
     "mu-switch": class AppSwitch extends Switch.Element {
       constructor() {
         super(routes, "blazing:history", "blazing:auth");
       }
     },
     "blazing-app": AppElement,
-    "blazing-header": HeaderElement,
+    "ryl-header": HeaderElement,
     "home-view": HomeViewElement,
+    "profile-view": ProfileViewElement,
     "test-view": TestViewElement,
   });
   

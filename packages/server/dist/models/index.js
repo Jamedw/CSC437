@@ -20,11 +20,13 @@ __reExport(models_exports, require("./Movie"), module.exports);
 __reExport(models_exports, require("./MovieRoyale"), module.exports);
 __reExport(models_exports, require("./User"), module.exports);
 __reExport(models_exports, require("./credential"), module.exports);
+__reExport(models_exports, require("./PopulatedUser"), module.exports);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ...require("./MovieRound"),
   ...require("./Movie"),
   ...require("./MovieRoyale"),
   ...require("./User"),
-  ...require("./credential")
+  ...require("./credential"),
+  ...require("./PopulatedUser")
 });

@@ -1,4 +1,3 @@
-// in proto/src/auth/login-form.ts
 import { html, css, LitElement } from "lit";
 import { property, state } from "lit/decorators.js";
 import reset from "../styles/reset.css.js";
@@ -38,7 +37,7 @@ export class LoginFormElement extends LitElement {
           <button
             ?disabled=${!this.canSubmit}
             type="submit">
-            Login
+            <slot name="button-label">Login</slot>
           </button>
         </slot>
         <p class="error">${this.error}</p>
@@ -56,12 +55,13 @@ export class LoginFormElement extends LitElement {
       }
   `];
 
+
   handleChange(event: InputEvent) {
     const target = event.target as HTMLInputElement;
     const name = target?.name;
     const value = target?.value;
     const prevData = this.formData;
-  
+
     switch (name) {
       case "username":
         this.formData = { ...prevData, username: value };
@@ -76,8 +76,7 @@ export class LoginFormElement extends LitElement {
     submitEvent.preventDefault();
 
     if (this.canSubmit) {
-      fetch(
-        this?.api || "",
+      fetch(this?.api || "",
         {
           method: "POST",
           headers: {
@@ -86,29 +85,29 @@ export class LoginFormElement extends LitElement {
           body: JSON.stringify(this.formData)
         }
       )
-      .then((res) => {
-        if (res.status !== 200)
-          throw "Login failed";
-        else return res.json();
-      })
-      .then((json: object) => {
+        .then((res) => {
+          if (res.status !== 200 && res.status !== 201)
+            throw "Login failed";
+          else return res.json();
+        })
+        .then((json: object) => {
           const { token } = json as { token: string };
           const customEvent = new CustomEvent(
-          'auth:message', {
-          bubbles: true,
-          composed: true,
-          detail: [
+            'auth:message', {
+            bubbles: true,
+            composed: true,
+            detail: [
               'auth/signin',
               { token, redirect: this.redirect }
-          ]
+            ]
           });
           console.log("dispatching message", customEvent);
           this.dispatchEvent(customEvent);
-      })
-      .catch((error: Error) => {
+        })
+        .catch((error: Error) => {
           console.log(error);
           this.error = error.toString();
-      });
+        });
     }
   }
 }

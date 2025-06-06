@@ -1,19 +1,76 @@
-import { User, MovieRoyale } from "server/models"; 
+import { MovieRound, MovieRoyale, Movie, User} from "server/models";
+
 export type Msg =
-  | [ "profile/select", { userid: string }]
-  | [ "profile/save",
+| ["profile/save", { userid: string; profile: Partial<User>; onSuccess?: () => void; onFailure?: (err: Error) => void; }]
+| ["profile/select", { userid: string; onSuccess?: () => void; onFailure?: (err: Error) => void; }]
+  | ["user/select", { userid: string; onSuccess?: () => void; onFailure?: (err: Error) => void; }]
+  | ["movieRoyales/create", { title: string; creatorId: string; onSuccess?: (newRoyale: MovieRoyale) => void; onFailure?: (err: Error) => void; }]
+
+  | [ "movieRoyales/join",
       {
-        userid: string; 
-        profile: Partial<User>; 
-        onSuccess?: () => void; 
-        onFailure?: (err: Error) => void; 
+        royaleId: string;
+        userId: string;
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
       }
     ]
-  | [ "movieRoyales/create",
+  | [ "movieRoyales/startRound",
       {
-        title: string; 
-        creatorId?: string; 
-        onSuccess?: (newRoyale: MovieRoyale) => void; 
-        onFailure?: (err: Error) => void; 
+        royaleId: string;
+        creatorId: string;
+        movieIds: string[];
+        onSuccess?: (newRound: MovieRound) => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [ "movieRoyales/submitVote",
+      {
+        royaleId: string;
+        roundId: string;
+        userId: string;
+        votes: { movieId: string; score: number; }[];
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [ "movies/search",
+      {
+        query: string;
+        limit?: number;
+        offset?: number;
+        onSuccess?: (movies: Movie[]) => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [ "profile/addFavoriteMovie",
+      {
+        userId: string;
+        movieId: string;
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [ "profile/removeFavoriteMovie",
+      {
+        userId: string;
+        movieId: string;
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [ "profile/addFriend", // New message for adding a friend
+      {
+        userId: string;       // The user who is initiating the friend request
+        friendId: string;     // The ID of the user to be added as a friend
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
+      }
+    ]
+  | [ "profile/removeFriend", // New message for removing a friend
+      {
+        userId: string;       // The user who is removing the friend
+        friendId: string;     // The ID of the friend to be removed
+        onSuccess?: () => void;
+        onFailure?: (err: Error) => void;
       }
     ];

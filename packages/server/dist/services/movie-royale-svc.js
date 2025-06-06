@@ -16,11 +16,13 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var MovieRound_exports = {};
-__export(MovieRound_exports, {
-  movieRoundSchema: () => movieRoundSchema
+var movie_royale_svc_exports = {};
+__export(movie_royale_svc_exports, {
+  createMovieRoyale: () => createMovieRoyale,
+  default: () => movie_royale_svc_default,
+  getMovieRoyaleById: () => getMovieRoyaleById
 });
-module.exports = __toCommonJS(MovieRound_exports);
+module.exports = __toCommonJS(movie_royale_svc_exports);
 var import_mongoose = require("mongoose");
 const movieRoundSchema = new import_mongoose.Schema(
   {
@@ -39,7 +41,29 @@ const movieRoundSchema = new import_mongoose.Schema(
   },
   { _id: true }
 );
+const movieRoyaleSchema = new import_mongoose.Schema(
+  {
+    participants: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true }],
+    title: { type: String, required: true, trim: true },
+    status: { type: String, enum: ["pending", "active", "completed", "cancelled"], default: "pending", required: true },
+    creator: { type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    currentRound: { type: Number, default: 0 },
+    numberOfRounds: { type: Number, required: true },
+    rounds: [movieRoundSchema]
+  },
+  { collection: "movie_royales", timestamps: true }
+);
+const movieRoyaleModel = (0, import_mongoose.model)("MovieRoyale", movieRoyaleSchema);
+async function createMovieRoyale(royaleData) {
+  const newRoyale = new movieRoyaleModel(royaleData);
+  return newRoyale.save();
+}
+async function getMovieRoyaleById(id) {
+  return movieRoyaleModel.findById(id).populate("participants", "name").populate("creator", "name").populate("rounds.ballotMovies", "title imgSrc");
+}
+var movie_royale_svc_default = movieRoyaleModel;
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  movieRoundSchema
+  createMovieRoyale,
+  getMovieRoyaleById
 });

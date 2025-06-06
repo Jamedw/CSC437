@@ -10,7 +10,7 @@ const router = express.Router();
 dotenv.config();
 const TOKEN_SECRET: string = process.env.TOKEN_SECRET || "NOT_A_SECRET";
 router.post("/register", (req: Request, res: Response) => {
-  const { username, password } = req.body; // from form
+  const { username, password } = req.body;
 
   if ( typeof username !== "string" ||
     typeof password !== "string"
@@ -29,7 +29,7 @@ router.post("/register", (req: Request, res: Response) => {
   }
 });
 router.post("/login", (req: Request, res: Response) => {
-  const { username, password } = req.body; // from form
+  const { username, password } = req.body; 
 
   if (!username || !password) {
     res.status(400).send("Bad request: Invalid input data.");
@@ -62,7 +62,7 @@ export function authenticateUser(
   next: NextFunction
 ) {
   const authHeader = req.headers["authorization"];
-  //Getting the 2nd part of the auth header (the token)
+  
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {

@@ -32,28 +32,46 @@ __export(users_exports, {
 });
 module.exports = __toCommonJS(users_exports);
 var import_express = __toESM(require("express"));
-var import_user_svc = __toESM(require("../services/user-svc"));
+var Users = __toESM(require("../services/user-svc"));
 const router = import_express.default.Router();
 router.get("/", (_, res) => {
-  import_user_svc.default.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
+  Users.index().then((list) => res.json(list)).catch((err) => res.status(500).send(err));
 });
 router.get("/:username", (req, res) => {
   const { username } = req.params;
-  import_user_svc.default.get(username).then((user) => res.json(user)).catch((err) => res.status(404).send(err));
+  Users.get(username).then((user) => {
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).send("User not found");
+    }
+  }).catch((err) => {
+    console.error("Error fetching user:", err);
+    res.status(500).send("Internal Server Error");
+  });
 });
 router.post("/", (req, res) => {
   const newUser = req.body;
-  import_user_svc.default.create(newUser).then(
+  Users.create(newUser).then(
     (user) => res.status(201).json(user)
   ).catch((err) => res.status(500).send(err));
 });
 router.put("/:username", (req, res) => {
   const { username } = req.params;
   const newUser = req.body;
-  import_user_svc.default.update(username, newUser).then((user) => res.json(user)).catch((err) => res.status(404).end());
+  Users.update(username, newUser).then((user) => {
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).send("User not found for update");
+    }
+  }).catch((err) => {
+    console.error("Error updating user:", err);
+    res.status(500).send("Internal Server Error");
+  });
 });
 router.delete("/:username", (req, res) => {
   const { username } = req.params;
-  import_user_svc.default.remove(username).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
+  Users.remove(username).then(() => res.status(204).end()).catch((err) => res.status(404).send(err));
 });
 var users_default = router;

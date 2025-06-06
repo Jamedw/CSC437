@@ -62,7 +62,7 @@ nav {
       var(--size-spacing-medium);
 }
 nav > label {
-    grid-column: 1 / span 3;
+    grid-column: 1 
 }
 
 
@@ -80,22 +80,28 @@ ul {
     border-radius: var(--border-radius);
 }
 header {
-    display: flex; /* etc., as before */
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
     font-family: "Alegreya", serif;
     background-color: var(--color-accent);
     color: var(--color-text);
     line-height: var(--line-height);
     border-radius: var(--border-radius);
-    text-align: center;
-    font-size: 2.5em;
+    
+    font-size: 2.5em; 
     box-shadow: var(--box-shadow);
+    padding: var(--size-spacing-medium); 
 }
 
-header > .title{
-    width: 80%;
+header > .title {
+    flex: 4; 
+    text-align: center; 
 }
-header > .settings{
-    width: 30%;
+
+header > .settings {
+    flex: 1; 
+    text-align: right; 
 }
 
 footer {
@@ -107,7 +113,7 @@ footer {
 }
 
 .movieList {
-    display: flex; /* etc., as before */
+    display: flex; 
     flex-wrap: wrap;
 
     list-style: none;
@@ -116,7 +122,7 @@ footer {
     flex-grow: 1;
     flex-basis: 0%;
 	@media screen and (max-width: 30rem) {
-      /* override for mobile: */
+      
       flex-basis: auto;
     }
   }
@@ -132,31 +138,3 @@ li {
 }
 
 
-
-.page {
-    --page-grids: 3;
-  
-    display: grid;
-    grid-template-columns: repeat(
-      var(--page-grids), 1fr
-    );
-
-    gap:
-      var(--size-spacing-medium);
-  }
-  
-  .page > header {
-    grid-column: 1 / span 3;
-  }
-  .page > footer {
-    grid-column: 1 / span 3;
-  }
-
-
-
-.page > .description {
-    grid-column: span 2;
-}
-.page > .page_description {
-    grid-column: 1 / span 3;
-  }

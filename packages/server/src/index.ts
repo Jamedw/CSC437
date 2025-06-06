@@ -1,9 +1,9 @@
 // src/index.ts
 import express, { Request, Response } from "express";
 import { connect } from "./services/mongo";
-import Posters from "./services/poster-svc";
 import Movies from "./services/movie-svc";
 import users from "./routes/users"
+import movieRoyales from "./routes/movieRoyales"
 import auth, { authenticateUser } from "./routes/auth";
 import fs from "node:fs/promises";
 import path from "path";
@@ -17,7 +17,10 @@ const staticDir = process.env.STATIC || "public";
 console.log("Serving static files from ", staticDir);
 app.use(express.static(staticDir));
 
+app.use(express.json());
 app.use("/api/users", authenticateUser, users);
+app.use("/api/movieRoyales", authenticateUser, movieRoyales);
+
 app.use("/auth", auth);
 
 // Page Routes:
@@ -30,27 +33,22 @@ app.get("/ping", (_: Request, res: Response) => {
   );
 });
 
-app.get("/poster/:title", authenticateUser, (req: Request, res: Response) => {
-  let { title } = req.params;
-  Posters.get(title).then((data) => {
-    if (data) res
-      .set("Content-Type", "application/json")
-      .send(JSON.stringify(data));
-    else res
-      .status(404).send();
-  });
+app.get("/login", (req: Request, res: Response) => {
+  res
+    .set("Content-Type", "text/html")
+    .send(renderPage(LoginPage.render()));
 });
 
+app.get("/register", (req: Request, res: Response) => {
+  res
+    .set("Content-Type", "text/html")
+    .send(renderPage(RegistrationPage.render()));
+});
 
-app.get("/movie/:title", (req: Request, res: Response) => {
-  let { title } = req.params;
-  Movies.get(title).then((data) => {
-    if (data) res
-      .set("Content-Type", "application/json")
-      .send(JSON.stringify(data));
-    else res
-      .status(404).send();
-  });
+app.get("/login", (req: Request, res: Response) => {
+  res
+    .set("Content-Type", "text/html")
+    .send(renderPage(LoginPage.render()));
 });
 
 // SPA Routes: /app/...

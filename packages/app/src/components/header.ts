@@ -26,9 +26,8 @@ export class HeaderElement extends LitElement {
   render() {
     return html`
       <header>
-        <p1 class="title">
-        Movie Royale
-        </p1>
+        <h1 class="title">Movie Royale</h1>
+
         <nav>
           <mu-dropdown>
             <a slot="actuator" style="cursor:pointer;">
@@ -39,7 +38,7 @@ export class HeaderElement extends LitElement {
                 <use href="./icons/movies.svg#movie-icon1" />
               </svg>
             </a>  
-            <div>
+            <menu>
                 <label class="dark-mode-switch" 
                   @change=${(event: Event) => Events.relay(
                     event, "dark-mode", {
@@ -49,11 +48,17 @@ export class HeaderElement extends LitElement {
                 >            
               <input type="checkbox" /> Dark mode
               </label>
+                ${this.loggedIn && this.userid ? html`
+                    <a href="/app/user/${this.userid}" class="dropdown-link">
+                        My Profile
+                    </a>
+                ` : ''}
+              </label>
                 ${this.loggedIn ?
                   this.renderSignOutButton() :
                   this.renderSignInButton()
                 }
-            </div>
+            </menu>
           </mu-dropdown>
         </nav>
       </header>`
@@ -62,28 +67,51 @@ export class HeaderElement extends LitElement {
     static styles = [
       reset.styles,
       css`
-        header {
-            display: flex; /* etc., as before */
-            font-family: "Alegreya", serif;
-            background-color: var(--color-accent);
-            color: var(--color-text);
-            line-height: var(--line-height);
-            border-radius: var(--border-radius);
-            text-align: center;
-            font-size: 2.5em;
-            box-shadow: var(--box-shadow);
-        }
-        a{
-          display: inline-flex; /* etc., as before */
-          padding: 0 rem
-        }
+          header {
+              display: flex;
+              align-items: center;
+              justify-content: space-between; 
+              font-family: "Alegreya", serif;
+              background-color: var(--color-accent);
+              color: var(--color-text);
+              line-height: var(--line-height);
+              border-radius: var(--border-radius);
+              font-size: 2.5em;box-shadow: var(--box-shadow);
+              padding: var(--size-spacing-medium);
+          }
 
-        header > .title{
-            width: 80%;
-        }
-        header > .settings{
-            width: 20%;
-        }
+          header > .title {
+              flex: 4;
+              text-align: center;
+          }
+
+          header > nav { 
+              flex: 1; 
+              text-align: right;
+          }
+          nav {
+            display: flex;
+            flex-direction: column;
+            flex-basis: max-content;
+            align-items: end;
+          }
+
+          a[slot="actuator"] {
+            color: var(--color-link-inverted);
+            cursor: pointer;
+          }
+          #userid:empty::before {
+            content: "traveler";
+          }
+          menu a {
+            color: var(--color-link);
+            cursor: pointer;
+            text-decoration: underline;
+          }
+          nav.logged-out .when-signed-in,
+          nav.logged-in .when-signed-out {
+            display: none;
+          }
         
       `];
 

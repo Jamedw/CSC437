@@ -18,30 +18,37 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var movie_svc_exports = {};
 __export(movie_svc_exports, {
-  default: () => movie_svc_default
+  createMovie: () => createMovie,
+  default: () => movie_svc_default,
+  getMovieById: () => getMovieById
 });
 module.exports = __toCommonJS(movie_svc_exports);
 var import_mongoose = require("mongoose");
-const MovieSchema = new import_mongoose.Schema(
+const movieSchema = new import_mongoose.Schema(
   {
-    title: String,
-    genres: Array,
-    cast: Array,
-    description: String,
-    imgSrc: String
+    title: { type: String, required: true, trim: true },
+    releaseYear: { type: Number, required: true },
+    genres: [{ type: String }],
+    // Array of strings
+    cast: [{ type: String }],
+    // Array of strings
+    description: { type: String },
+    imgSrc: { type: String }
   },
-  { collection: "movie" }
+  { collection: "movies", timestamps: true }
+  // Store movies in a 'movies' collection
 );
-const MovieModel = (0, import_mongoose.model)(
-  "movie_title",
-  MovieSchema
-);
-function index() {
-  return MovieModel.find();
+const movieModel = (0, import_mongoose.model)("Movie", movieSchema);
+async function createMovie(movieData) {
+  const newMovie = new movieModel(movieData);
+  return newMovie.save();
 }
-function get(title) {
-  return MovieModel.find({ title }).then((list) => list[0]).catch((err) => {
-    throw `${title} Not Found`;
-  });
+async function getMovieById(id) {
+  return movieModel.findById(id);
 }
-var movie_svc_default = { index, get };
+var movie_svc_default = movieModel;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  createMovie,
+  getMovieById
+});

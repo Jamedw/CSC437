@@ -1,9 +1,33 @@
 import { ObjectId } from "mongoose"
-import { MovieRoyale } from "./MovieRoyale";
-import { Movie } from "./Movie";   
+import { Schema, model } from 'mongoose';
+
 export interface User {
-    _id?: ObjectId; 
+    _id: string; 
     name: string;
-    movieRoyales: MovieRoyale[]; 
-    favoriteMovies?: Movie[]; 
+    movieRoyales: ObjectId[]; 
+    favoriteMovies?: ObjectId[]; 
+    friends?: ObjectId[];
 }
+export const userSchema = new Schema<User>(
+    {
+
+        name: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true
+        },
+        movieRoyales: [{ type: Schema.Types.ObjectId, ref: 'MovieRoyale' }], 
+        favoriteMovies: [{ type: Schema.Types.ObjectId, ref: 'Movie' }], 
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
+    },
+    { collection: "users", timestamps: true }
+  );
+  
+  
+export const userProfileModel = model<User>("User", userSchema);

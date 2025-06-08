@@ -10,7 +10,7 @@ export default function update(
 ) {
   switch (message[0]) {
     case "profile/save":
-      const savePayload = message[1]; // message[1] is already SaveProfilePayload
+      const savePayload = message[1]; 
       saveProfile(savePayload, user)
         .then((profile) =>
           apply((model) => ({ ...model, profile }))
@@ -24,7 +24,7 @@ export default function update(
       break;
 
     case "profile/select":
-      loadProfile(message[1], user).then((profile) => // Using loadProfile
+      loadProfile(message[1], user).then((profile) => 
         apply((model) => ({ ...model, profile }))
       );
       break;
@@ -110,38 +110,38 @@ export default function update(
         });
       break;
 
-    // --- ADD THE MISSING CASES HERE ---
+    
     case "movieRoyales/join":
-      // message[1] is { royaleId: string; userId: string; onSuccess?: () => void; onFailure?: (err: Error) => void; }
+      
       console.log("Handling movieRoyales/join:", message[1]);
-      // Implement joinMovieRoyale logic here, e.g.:
-      // joinMovieRoyale(message[1], user)
-      //   .then(() => message[1].onSuccess?.())
-      //   .catch(err => message[1].onFailure?.(err));
+      
+      
+      
+      
       break;
 
     case "movieRoyales/startRound":
-      // message[1] is { royaleId: string; creatorId: string; movieIds: string[]; onSuccess?: (newRound: MovieRound) => void; onFailure?: (err: Error) => void; }
+      
       console.log("Handling movieRoyales/startRound:", message[1]);
-      // Implement startRound logic here
+      
       break;
 
     case "movieRoyales/submitVote":
-      // message[1] is { royaleId: string; roundId: string; userId: string; votes: { movieId: string; score: number; }[]; onSuccess?: () => void; onFailure?: (err: Error) => void; }
+      
       console.log("Handling movieRoyales/submitVote:", message[1]);
-      // Implement submitVote logic here
+      
       break;
 
     case "movies/search":
-      // message[1] is { query: string; limit?: number; offset?: number; onSuccess?: (movies: Movie[]) => void; onFailure?: (err: Error) => void; }
+      
       console.log("Handling movies/search:", message[1]);
-      // Implement movie search logic here
+      
       break;
-    // --- END OF MISSING CASES ---
+    
 
     default:
-      // If all cases are handled, this line should now genuinely be unreachable,
-      // and TypeScript will confirm that 'message[0]' is of type 'never'.
+      
+      
       const unhandled: never = message[0];
       throw new Error(`Unhandled message "${unhandled}"`);
   }
@@ -182,7 +182,7 @@ interface LoadProfileMessagePayload {
   onFailure?: (err: Error) => void;
 }
 
-function loadProfile( // Renamed from selectProfile to loadProfile for consistency
+function loadProfile( 
   payload: LoadProfileMessagePayload,
   user: Auth.User
 ): Promise<User | undefined> {

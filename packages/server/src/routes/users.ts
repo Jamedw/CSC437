@@ -13,16 +13,16 @@ router.get("/", (_, res: Response) => {
   router.get("/:username", (req: Request, res: Response) => {
     const { username } = req.params;
     Users.get(username)
-      .then((user: User | null) => { // IMPORTANT: user can be User or null
+      .then((user: User | null) => { 
         if (user) {
           res.json(user);
         } else {
-          res.status(404).send("User not found"); // Or a more specific error message
+          res.status(404).send("User not found"); 
         }
       })
       .catch((err: any) => {
-        console.error("Error fetching user:", err); // Log the error for debugging
-        res.status(500).send("Internal Server Error"); // Send a generic 500 for unexpected errors
+        console.error("Error fetching user:", err); 
+        res.status(500).send("Internal Server Error"); 
       });
   });
 
@@ -43,16 +43,16 @@ router.post("/", (req: Request, res: Response) => {
     const newUser = req.body;
   
     Users.update(username, newUser)
-      .then((user: User | null) => { // IMPORTANT: user can be User or null
+      .then((user: User | null) => { 
         if (user) {
-          res.json(user); // Send the updated user data
+          res.json(user); 
         } else {
-          res.status(404).send("User not found for update"); // Or a more specific error message
+          res.status(404).send("User not found for update"); 
         }
       })
       .catch((err: any) => {
-        console.error("Error updating user:", err); // Log the error for debugging
-        res.status(500).send("Internal Server Error"); // Send a generic 500 for unexpected errors
+        console.error("Error updating user:", err); 
+        res.status(500).send("Internal Server Error"); 
       });
   });
 

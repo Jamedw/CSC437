@@ -10,11 +10,7 @@ const router = express.Router();
 
 router.use(authenticateUser);
 
-/**
- * GET /api/movie-royales/
- * Retrieves all MovieRoyale entries.
- * This is an optional endpoint; remove if you only want access via creator ID or specific ID.
- */
+
 router.get("/", async (_: Request, res: Response) => {
   try {
     const movieRoyales = await MovieRoyaleService.index();
@@ -25,10 +21,7 @@ router.get("/", async (_: Request, res: Response) => {
   }
 });
 
-/**
- * GET /api/movie-royales/:id
- * Retrieves a single MovieRoyale by its unique ID.
- */
+
 router.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   
@@ -48,10 +41,7 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * GET /api/movie-royales/creator/:creatorId
- * Retrieves all MovieRoyales associated with a specific creator ID.
- */
+
 router.get("/creator/:creatorId", async (req: Request, res: Response) => {
   const { creatorId } = req.params;
   
@@ -65,10 +55,7 @@ router.get("/creator/:creatorId", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * POST /api/movie-royales/
- * Creates a new MovieRoyale entry.
- */
+
 router.post("/", async (req: Request, res: Response) => {
   const {title, name} = req.body;
   console.log("hello !!! ", req.body );
@@ -81,10 +68,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * PUT /api/movie-royales/:id
- * Updates an existing MovieRoyale by its ID.
- */
+
 router.put("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   
@@ -105,10 +89,7 @@ router.put("/:id", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * DELETE /api/movie-royales/:id
- * Deletes a MovieRoyale by its ID.
- */
+
 router.delete("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   

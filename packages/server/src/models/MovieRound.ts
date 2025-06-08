@@ -12,7 +12,7 @@ export const movieRoundSchema = new Schema<MovieRound>(
     {
         participants: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
         status: { type: String, enum: ['pending', 'active', 'completed', 'cancelled'], default: 'pending', required: true },
-        ballotMovies: [{ type: Schema.Types.ObjectId, ref: 'Movie', required: true }], // References to Movies
+        ballotMovies: [{ type: Schema.Types.ObjectId, ref: 'Movie', required: true }], 
         votes: [
             {
                 userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },

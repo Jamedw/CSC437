@@ -2,7 +2,7 @@ import { ObjectId } from "mongoose"
 import { Schema, model } from 'mongoose';
 
 export interface User {
-    _id: string; 
+    _id?: string; 
     name: string;
     movieRoyales: ObjectId[]; 
     favoriteMovies?: ObjectId[]; 

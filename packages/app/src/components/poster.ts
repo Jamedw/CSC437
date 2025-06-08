@@ -1,4 +1,4 @@
-// src/destination.ts
+
 import { html, css, LitElement } from "lit";
 
 export class MovieElement extends LitElement {
@@ -13,7 +13,7 @@ export class MovieElement extends LitElement {
     constructor() {
         super();
         this.title = 'Default Title';
-        this.img = 'placeholder.jpg'; // Replace with a default image URL
+        this.img = 'placeholder.jpg'; 
         this.linkUrl = '#';
     }
 

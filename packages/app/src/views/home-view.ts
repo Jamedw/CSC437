@@ -6,5 +6,4 @@ export class HomeViewElement extends LitElement {
     `;
   }
 
-  // more to come
 }

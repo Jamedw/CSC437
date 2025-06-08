@@ -58,18 +58,18 @@ export type Msg =
         onFailure?: (err: Error) => void;
       }
     ]
-  | [ "profile/addFriend", // New message for adding a friend
+  | [ "profile/addFriend", 
       {
-        userId: string;       // The user who is initiating the friend request
-        friendId: string;     // The ID of the user to be added as a friend
+        userId: string;       
+        friendId: string;     
         onSuccess?: () => void;
         onFailure?: (err: Error) => void;
       }
     ]
-  | [ "profile/removeFriend", // New message for removing a friend
+  | [ "profile/removeFriend", 
       {
-        userId: string;       // The user who is removing the friend
-        friendId: string;     // The ID of the friend to be removed
+        userId: string;       
+        friendId: string;     
         onSuccess?: () => void;
         onFailure?: (err: Error) => void;
       }

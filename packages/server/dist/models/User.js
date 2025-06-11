@@ -36,7 +36,7 @@ const userSchema = new import_mongoose2.Schema(
     friends: [
       {
         type: import_mongoose2.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "users"
       }
     ]
   },

@@ -33,7 +33,6 @@ __export(credential_svc_exports, {
 module.exports = __toCommonJS(credential_svc_exports);
 var import_bcryptjs = __toESM(require("bcryptjs"));
 var import_mongoose = require("mongoose");
-var import_User = require("../models/User");
 const credentialSchema = new import_mongoose.Schema(
   {
     username: {
@@ -64,13 +63,6 @@ function create(username, password) {
         hashedPassword
       });
       const savedCredential = await creds.save();
-      const newUserProfile = new import_User.userProfileModel({
-        name: username,
-        movieRoyales: [],
-        favoriteMovies: [],
-        friends: []
-      });
-      await newUserProfile.save();
       return savedCredential;
     })
   );

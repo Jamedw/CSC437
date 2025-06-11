@@ -45,15 +45,6 @@ function create(username: string, password: string): Promise<Credential> {
             });
             const savedCredential = await creds.save(); 
 
-            const newUserProfile = new userProfileModel({
-                name: username, 
-                movieRoyales: [], 
-                favoriteMovies: [],
-                friends: []
-            } as User); 
-            await newUserProfile.save(); 
-
-            
             return savedCredential;
           })
       );

@@ -27,7 +27,6 @@ const movieRoundSchema = new import_mongoose.Schema(
     participants: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true }],
     status: { type: String, enum: ["pending", "active", "completed", "cancelled"], default: "pending", required: true },
     ballotMovies: [{ type: import_mongoose.Schema.Types.ObjectId, ref: "Movie", required: true }],
-    // References to Movies
     votes: [
       {
         userId: { type: import_mongoose.Schema.Types.ObjectId, ref: "User", required: true },

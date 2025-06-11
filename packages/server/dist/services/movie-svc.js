@@ -29,14 +29,11 @@ const movieSchema = new import_mongoose.Schema(
     title: { type: String, required: true, trim: true },
     releaseYear: { type: Number, required: true },
     genres: [{ type: String }],
-    // Array of strings
     cast: [{ type: String }],
-    // Array of strings
     description: { type: String },
     imgSrc: { type: String }
   },
   { collection: "movies", timestamps: true }
-  // Store movies in a 'movies' collection
 );
 const movieModel = (0, import_mongoose.model)("Movie", movieSchema);
 async function createMovie(movieData) {

@@ -3,8 +3,8 @@ import { Schema, model } from 'mongoose';
 
 export interface User {
     _id?: string; 
-    name: string;
-    movieRoyales: ObjectId[]; 
+    name?: string;
+    movieRoyales?: ObjectId[]; 
     favoriteMovies?: ObjectId[]; 
     friends?: ObjectId[];
 }
@@ -22,7 +22,7 @@ export const userSchema = new Schema<User>(
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User'
+                ref: 'users'
             }
         ],
     },
